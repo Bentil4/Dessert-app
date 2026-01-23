@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmptyState } from './empty-state';
+import { OrderConfirmModel } from './order-confirm-model';
 
-describe('EmptyState', () => {
-  let component: EmptyState;
-  let fixture: ComponentFixture<EmptyState>;
+describe('OrderConfirmModel', () => {
+  let component: OrderConfirmModel;
+  let fixture: ComponentFixture<OrderConfirmModel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmptyState]
+      imports: [OrderConfirmModel]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(EmptyState);
+    fixture = TestBed.createComponent(OrderConfirmModel);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
