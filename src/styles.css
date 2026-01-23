@@ -1,7 +1,31 @@
 @import 'tailwindcss';
-@config "../tailwind.config.js";
 
-@font-face {
-  font-family: 'Red Hat Text';
-  src: url('./assets//fonts/RedHatText-VariableFont_wght.ttf') format('ttf');
+@theme {
+  @font-face {
+    font-family: 'Red Hat Text';
+    src: url('./assets//fonts/RedHatText-VariableFont_wght.ttf') format('ttf');
+  }
+}
+
+@theme {
+  --color-red: #c73b0f;
+  --color-rose-900: #260f08;
+  --color-rose-500: #87635a;
+  --color-rose-400: #ad8a85;
+  --color-myrose-300: #caafa7;
+  --color-rose-100: #f5eeec;
+  --color-rose-50: #fcf8f6;
+  --color-green: #1ea575;
+  --color-black: #000;
+  --color-white: #fff;
+}
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-xs: 20rem;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+  --breakpoint-2xl: 96rem;
 }
