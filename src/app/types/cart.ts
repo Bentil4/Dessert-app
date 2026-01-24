@@ -1,10 +1,8 @@
-import { IProduct } from "./product";
+import { IProduct } from './product';
 
-export interface ICartLine{
-    product: IProduct;
-    quantity: number;
+export interface ICartItem {
+  product: IProduct;
+  quantity: number;
 }
 
-export type CartState = {
-    lines: ICartLine[]
-}
+export type Cart = ICartItem[];
