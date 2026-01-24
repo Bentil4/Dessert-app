@@ -1,1 +1,48 @@
 <p>product-card works!</p>
+<div class="relative rounded-xl overflow-hidden shadow-sm transition-shadow group-hover:shadow-md">
+  <!-- Image -->
+  <img
+    [src]="product().imageURL.desktop"
+    [alt]="product().name"
+    width="400"
+    height="400"
+    class="w-full aspect-square object-cover"
+    [class]="{
+      'border-2 border-orange-600': isInCart(),
+      'border-2 border-transparent': !isInCart(),
+    }"
+  />
+
+  <!-- Add to cart button / Quantity controls -->
+  @if (!isInCart()) {
+    <button
+      (click)="addToCart()"
+      class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-white text-rose-600 font-semibold px-8 py-4 rounded-full shadow-lg hover:bg-rose-50 transition-colors flex items-center gap-2 whitespace-nowrap"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+        />
+      </svg>
+      Add to Cart
+    </button>
+  } @else {
+    <!-- <app-quantity-control
+      [quantity]="quantity()"
+      (increase)="increase()"
+      (decrease)="decrease()"
+      class="absolute -bottom-5 left-1/2 -translate-x-1/2"
+    /> -->
+  }
+</div>
+
+<div class="mt-10 space-y-1">
+  <p class="text-sm text-gray-500">{{ product().category }}</p>
+  <h3 class="font-semibold text-gray-900">{{ product().name }}</h3>
+  <!-- <p class="font-semibold text-orange-600">
+        {{ product().price | currency:'USD':'symbol':'1.2-2' }}
+      </p> -->
+</div>
