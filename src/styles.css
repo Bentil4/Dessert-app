@@ -1,11 +1,11 @@
 @import 'tailwindcss';
 
-@theme {
+/* @theme {
   @font-face {
     font-family: 'Red Hat Text';
     src: url('./assets//fonts/RedHatText-VariableFont_wght.ttf') format('ttf');
   }
-}
+} */
 
 @theme {
   --color-red: #c73b0f;
