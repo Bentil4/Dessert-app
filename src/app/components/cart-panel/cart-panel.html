@@ -1,1 +1,21 @@
-<p>cart-panel works!</p>
+<aside class="rounded-xl bg-white p-6 shadow">
+  <h2 class="text-lg font-bold text-red">Your Cart ({{ cart.items().length }})</h2>
+
+  @if (cart.items().length === 0) {
+    <p class="mt-4 text-sm text-gray-500">Your added items will appear here</p>
+  } @else {
+    <ul class="mt-4 space-y-3">
+      @for (item of cart.items(); track item.product.name) {
+        <li class="flex justify-between">
+          <span>{{ item.product.name }} × {{ item.quantity }}</span>
+          <span>{{ item.product.price * item.quantity | currency: 'GH₵' }}</span>
+        </li>
+      }
+    </ul>
+
+    <section class="mt-4 flex justify-between font-light">
+      <span>Order Total</span>
+      <span>{{ cart.totalPrice() | currency: 'GH₵' }}</span>
+    </section>
+  }
+</aside>
