@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, computed } from '@angular/core';
 import { IProduct } from '../../types/product';
 import { CartService } from '../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
@@ -17,8 +17,11 @@ export class ProductCard {
   private cart = inject(CartService);
 
   product = input.required<IProduct>();
-
-  add(): void{
-    this.cart.addItem(this.product())
-  }
+  readonly inCartQuantity = input<number>(0);
+  readonly increment = output<string>();
+  readonly decrement = output<string>();
+readonly add = output<IProduct>();
+  // add(): void {
+  //   this.cart.addItem(this.product());
+  // }
 }

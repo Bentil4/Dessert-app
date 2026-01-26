@@ -35,33 +35,33 @@ export class CartService {
    * Increment the quantity of the product with the given name in the cart by 1.
    * @param name The name of the product to increment its quantity
    */
-  // increaseQuantity(name: string): void {
-  //   this.cart.update((items) =>
-  //     items.map((item) =>
-  //       item.product.name === name ? { ...item, quantity: item.quantity + 1 } : item,
-  //     ),
-  //   );
-  // }
+  increaseQuantity(name: string): void {
+    this._items.update((items) =>
+      items.map((item) =>
+        item.product.name === name ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
+    );
+  }
 
   /**
    * Decrement the quantity of the product with the given name in the cart by 1.
    * If the product's quantity is already 1, remove it from the cart.
    * @param name The name of the product to decrement its quantity
    */
-  // decreaseQuantity(name: string): void {
-  //   this.cart.update((items) => {
-  //     const item = items.find((it) => it.product.name === name);
-  //     if (!item) {
-  //       return items;
-  //     }
-  //     if (item.quantity <= 1) {
-  //       return items.filter((it) => it.product.name !== name);
-  //     }
-  //     return items.map((it) =>
-  //       it.product.name === name ? { ...it, quantity: it.quantity - 1 } : it,
-  //     );
-  //   });
-  // }
+  decreaseQuantity(name: string): void {
+    this._items.update((items) => {
+      const item = items.find((it) => it.product.name === name);
+      if (!item) {
+        return items;
+      }
+      if (item.quantity <= 1) {
+        return items.filter((it) => it.product.name !== name);
+      }
+      return items.map((it) =>
+        it.product.name === name ? { ...it, quantity: it.quantity - 1 } : it,
+      );
+    });
+  }
 
   /**
    * Remove a product from the cart by its name.
