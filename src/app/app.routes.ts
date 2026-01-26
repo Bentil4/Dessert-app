@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { ProductCard } from './components/product-card/product-card';
 import { ProductList } from './components/product-list/product-list';
 import { Dessert } from './pages/dessert/dessert';
+import { PageNotFound } from './pages/page-not-found/page-not-found';
 export const routes: Routes = [
   // {
   //   path: '',
@@ -24,4 +25,6 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./pages/dessert/dessert').then((m) => m.Dessert),
   },
+
+  { path: '**', component: PageNotFound, title: '404' },
 ];
