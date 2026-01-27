@@ -8,8 +8,6 @@ export class CartService {
 
   items = this._items.asReadonly();
 
-  // totalItems = computed(() => this.cart().reduce((sum, item) => sum + item.quantity, 0));
-
   totalPrice = computed(() =>
     this._items().reduce((sum, item) => sum + item.quantity * item.product.price, 0),
   );

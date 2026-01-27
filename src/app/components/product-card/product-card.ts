@@ -20,8 +20,5 @@ export class ProductCard {
   readonly inCartQuantity = input<number>(0);
   readonly increment = output<string>();
   readonly decrement = output<string>();
-readonly add = output<IProduct>();
-  // add(): void {
-  //   this.cart.addItem(this.product());
-  // }
+  readonly add = output<IProduct>();
 }

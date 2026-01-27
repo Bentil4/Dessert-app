@@ -11,15 +11,10 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class OrderConfirmModel {
   cartService = inject(CartService);
-  // router = inject(Router)
 
   readonly items = computed(() => this.cartService.items());
   readonly total = computed(() => this.cartService.totalPrice());
   readonly close = output<void>();
-
-  // close():void{
-  //   this.router.navigateByUrl('/');
-  // }
 
   startNewOrder(): void {
     this.cartService.clearCart();
