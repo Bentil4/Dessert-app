@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
 
@@ -10,4 +10,10 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class CartPanel {
   cart = inject(CartService);
+
+  readonly confirm = output<void>();
+
+  startNewOrder(): void {
+    this.confirm.emit();
+  }
 }

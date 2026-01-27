@@ -1,26 +1,41 @@
-<article class="bg-white py-4 cursor-pointer">
-  <img
-    ngOptimizedImage
-    [src]="product().imageURL.desktop"
-    [alt]="product().name"
-    width="500"
-    height="500"
-    class="rounded-lg"
-  />
- 
+<article class="py-4 cursor-pointer">
+  @if (inCartQuantity() > 0) {
+    <img
+      ngOptimizedImage
+      [src]="product().imageURL.desktop"
+      [alt]="product().name"
+      width="500"
+      height="500"
+      class="rounded-lg border-2 border-red"
+    />
+  } @else {
+    <img
+      ngOptimizedImage
+      [src]="product().imageURL.desktop"
+      [alt]="product().name"
+      width="500"
+      height="500"
+      class="rounded-lg route"
+    />
+  }
 
   <div
-    class="flex items-center justify-center mt-3 relative -top-8 left-14 w-3/5 rounded-full bg-white py-2 text-black border-2 border-rose-400  hover:text-red hover:border-red"
+    class="flex items-center justify-center mt-3 relative -top-8 left-14 w-3/5 rounded-full bg-white"
   >
     @if (inCartQuantity() > 0) {
-      <div class="inline-flex items-center gap-10 px-3 py-1.5 ">
+      <div
+        class="flex items-center justify-center gap-10 px-3 w-5/5 bg-red text-white py-4 rounded-full"
+      >
         <button
           type="button"
           class="focus-ring cursor-pointer"
           aria-label="Decrease {{ product().name }} quantity"
           (click)="decrement.emit(product().name)"
         >
-          −
+          <img
+            src="../../../assets/images/icon-decrement-quantity.svg"
+            class="cursor-pointer border-2 rounded-full p-1 h-2.5 hover:text-red hover:bg-white"
+          />
         </button>
         <span class="min-w-6 text-center" aria-live="polite">{{ inCartQuantity() }}</span>
         <button
@@ -29,13 +44,16 @@
           aria-label="Increase {{ product().name }} quantity"
           (click)="increment.emit(product().name)"
         >
-          ＋
+          <img
+            src="../../../assets/images/icon-increment-quantity.svg"
+            class="cursor-pointer border-2 rounded-full p-1 hover:bg-white"
+          />
         </button>
       </div>
     } @else {
       <button
         type="button"
-        class="focus-ring inline-flex items-center gap-2 px-4 py-2 hover:border-(--color-primary) hover:text-(--color-primary) cursor-pointer"
+        class="flex items-center justify-center gap-2 border-2 border-rose-400 rounded-full w-5/5 px-3 py-4 hover:text-red hover:border-red cursor-pointer"
         (click)="add.emit(product())"
         [attr.aria-label]="'Add ' + product().name + ' to cart'"
       >
