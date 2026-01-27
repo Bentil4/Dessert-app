@@ -1,24 +1,69 @@
-<p>product-card works!</p>
-<article class="rounded-xl bg-white p-4 shadow">
-  <img
-    ngOptimizedImage
-    [src]="product().imageURL.thumbnail"
-    [alt]="product().name"
-    width="200"
-    height="200"
-    class="rounded-lg"
-  />
+<article class="py-4 cursor-pointer">
+  @if (inCartQuantity() > 0) {
+    <img
+      ngOptimizedImage
+      [src]="product().imageURL.desktop"
+      [alt]="product().name"
+      width="500"
+      height="500"
+      class="rounded-lg border-2 border-red"
+    />
+  } @else {
+    <img
+      ngOptimizedImage
+      [src]="product().imageURL.desktop"
+      [alt]="product().name"
+      width="500"
+      height="500"
+      class="rounded-lg route"
+    />
+  }
+
+  <div
+    class="flex items-center justify-center mt-3 relative -top-8 left-14 w-3/5 rounded-full bg-white"
+  >
+    @if (inCartQuantity() > 0) {
+      <div
+        class="flex items-center justify-center gap-10 px-3 w-5/5 bg-red text-white py-4 rounded-full"
+      >
+        <button
+          type="button"
+          class="focus-ring cursor-pointer"
+          aria-label="Decrease {{ product().name }} quantity"
+          (click)="decrement.emit(product().name)"
+        >
+          <img
+            src="../../../assets/images/icon-decrement-quantity.svg"
+            class="cursor-pointer border-2 rounded-full p-1 h-2.5 hover:text-red hover:bg-white"
+          />
+        </button>
+        <span class="min-w-6 text-center" aria-live="polite">{{ inCartQuantity() }}</span>
+        <button
+          type="button"
+          class="focus-ring text-(--color-primary) cursor-pointer"
+          aria-label="Increase {{ product().name }} quantity"
+          (click)="increment.emit(product().name)"
+        >
+          <img
+            src="../../../assets/images/icon-increment-quantity.svg"
+            class="cursor-pointer border-2 rounded-full p-1 hover:bg-white"
+          />
+        </button>
+      </div>
+    } @else {
+      <button
+        type="button"
+        class="flex items-center justify-center gap-2 border-2 border-rose-400 rounded-full w-5/5 px-3 py-4 hover:text-red hover:border-red cursor-pointer"
+        (click)="add.emit(product())"
+        [attr.aria-label]="'Add ' + product().name + ' to cart'"
+      >
+        <img src="../../../assets/images/icon-add-to-cart.svg" alt="icon-add-to-cart" />
+        <span class="text-sm font-medium">Add to Cart</span>
+      </button>
+    }
+  </div>
 
   <p class="mt-2 text-sm text-gray-500">{{ product().category }}</p>
-  <h3 class="font-semibold">{{ product().name }}</h3>
-  <p class="text-orange-600 font-bold">{{ product().price }}</p>
-
-  <button
-    type="button"
-    class="mt-3 w-full rounded-full bg-orange-600 py-2 text-white focus-visible:outline focus-visible:outline-2"
-    (click)="add()"
-    aria-label="Add {{ product().name }} to cart"
-  >
-    Add to Cart
-  </button>
+  <h3 class="font-semibold pt-1">{{ product().name }}</h3>
+  <p class="text-red font-bold pt-1">{{ product().price | currency: 'GH₵' }}</p>
 </article>

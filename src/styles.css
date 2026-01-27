@@ -12,12 +12,14 @@
   --color-rose-900: #260f08;
   --color-rose-500: #87635a;
   --color-rose-400: #ad8a85;
-  --color-myrose-300: #caafa7;
+  --color-rose-300: #caafa7;
   --color-rose-100: #f5eeec;
   --color-rose-50: #fcf8f6;
   --color-green: #1ea575;
   --color-black: #000;
   --color-white: #fff;
+
+  --text-lgx: 1.5rem;
 }
 
 @theme {
