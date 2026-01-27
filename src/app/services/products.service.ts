@@ -10,6 +10,10 @@ import { map } from 'rxjs/operators';
 export class ProductsService {
   private http = inject(HttpClient);
 
+  /**
+   * Fetches the list of products from the JSON file.
+   * @returns An observable array of products.
+   */
   getProducts(): Observable<IProduct[]> {
     return this.http.get<any[]>('./assets/data/data.json').pipe(
       map((products) =>
