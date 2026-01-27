@@ -1,17 +1,27 @@
-<main class="w-full px-44 pt-10 bg-rose-50">
-  <section class="flex gap-14">
-    <section class="w-4/5">
-      <h1 class="text-lgx font-black tracking-wider">Desserts</h1>
-      <app-product-list></app-product-list>
-    </section>
-    <section class="w-1.5/5">
-      <app-cart-panel (confirm)="onConfirmOrder()"></app-cart-panel>
+<main class="w-full px-44 pt-10 bg-rose-50 max-lg:p-10 max-lg-w-full">
+  <section class="flex gap-14 max-lg:flex-col lg:flex-row">
+    <section class="flex flex-col gap-14 lg:flex-row">
+      <section class="flex w-full flex-col lg:w-4/5">
+        <h1 class="text-lgx font-black tracking-wider">Desserts</h1>
+        <app-product-list></app-product-list>
+      </section>
+
+      <section class="w-full lg:w-1/5">
+        <app-cart-panel (confirm)="onConfirmOrder()"></app-cart-panel>
+      </section>
     </section>
   </section>
 
   @if (isOrderConfirmed()) {
-  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-y-auto" (click)="onCloseModal()">
-    <app-order-confirm-model (click)="$event.stopPropagation()" (close)="onCloseModal()" />
-  </div>
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-y-auto max-md:w-full max-md:items-end"
+      (click)="onCloseModal()"
+    >
+      <app-order-confirm-model
+        class="max-md:w-full"
+        (click)="$event.stopPropagation()"
+        (close)="onCloseModal()"
+      />
+    </div>
   }
 </main>

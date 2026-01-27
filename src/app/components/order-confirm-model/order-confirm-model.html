@@ -1,37 +1,29 @@
 <section
-  class="w-120 rounded-lg bg-white p-6 shadow-xl"
-  role="document"
-  aria-labelledby="confirm-title"
-  tabindex="-1"
-  #panel
->
+  class="w-100 rounded-lg bg-white p-6 shadow-xl  max-md:w-4/4 max-md:max-h-180 h-full  max-md:rounded-b-none max-lg:w-130"
+  role="document" aria-labelledby="confirm-title" aria-describedby="confirm-description">
   <section class="flex items-center gap-2 text-(--color-primary) text-2xl" aria-hidden="true">
     <img src="../../../assets/images/icon-order-confirmed.svg" alt="" />
   </section>
-  <h1 id="confirm-title" class="mt-2 text-2xl font-extrabold">Order Confirmed</h1>
+  <h1 id="confirm-title" class="mt-2 text-2xl font-extrabold max-md:text-5xl">Order <span>Confirmed</span></h1>
   <p class="text-rose-500">We hope you enjoy your food!</p>
 
   <section class="mt-4 rounded-md bg-rose-50 p-4">
     @for (item of items(); track item.product.name) {
-      <section class="flex items-center justify-between py-3">
-        <section class="flex items-center gap-3 min-w-0">
-          <img
-            [src]="item.product.imageURL.desktop"
-            [attr.alt]="item.product.name"
-            class="size-10 rounded-md"
-          />
-          <div class="min-w-0">
-            <p class="truncate font-medium">{{ item.product.name }}</p>
-            <p class="text-sm text-rose-500">
-              {{ item.quantity }}x @ {{ item.product.price | currency: 'GH₵' }}
-            </p>
-          </div>
-        </section>
-        <p class="font-medium">
-          {{ item.quantity * item.product.price | currency: 'GH₵' }}
-        </p>
+    <section class="flex items-center justify-between py-3">
+      <section class="flex items-center gap-3 min-w-0">
+        <img [src]="item.product.imageURL.desktop" [attr.alt]="item.product.name" class="size-10 rounded-md" />
+        <div class="min-w-0">
+          <p class="truncate font-medium">{{ item.product.name }}</p>
+          <p class="text-sm text-rose-500">
+            {{ item.quantity }}x @ {{ item.product.price | currency: 'GH₵' }}
+          </p>
+        </div>
       </section>
-      <hr class="border-rose-100" />
+      <p class="font-medium">
+        {{ item.quantity * item.product.price | currency: 'GH₵' }}
+      </p>
+    </section>
+    <hr class="border-rose-100" />
     }
     <div class="mt-4 flex items-center justify-between">
       <span class="text-(--color-muted)">Order Total</span>
@@ -39,11 +31,8 @@
     </div>
   </section>
 
-  <button
-    type="button"
-    class="cursor-pointer mt-6 w-full rounded-full bg-red px-5 py-3 text-white font-semibold"
-    (click)="startNewOrder()"
-  >
+  <button type="button" class="cursor-pointer mt-6 w-full rounded-full bg-red px-5 py-3 text-white font-semibold"
+    (click)="startNewOrder()">
     Start New Order
   </button>
 </section>
