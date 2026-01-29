@@ -24,36 +24,30 @@
   >
     @if (inCartQuantity() > 0) {
       <div
-        class="flex items-center justify-around  gap-10 sm:gap-4 md:gap-10 px-2 sm:px-3 w-full h-14 bg-red text-white py-4 rounded-full"
+        class="flex items-center justify-around  gap-2 sm:gap-4  px-2 sm:px-3 w-full h-14 bg-red text-white py-4 rounded-full"
       >
         <button
           type="button"
-          class="focus-ring cursor-pointer border-2 border-white rounded-full p-1 hover:bg-white group"
+          class="focus-ring cursor-pointer border-2 border-white rounded-full p-1 hover:bg-white"
           aria-label="Decrease {{ product().name }} quantity"
           (click)="decrement.emit(product().name)"
         >
-          <img
-            src="../../../assets/images/icon-decrement-quantity.svg"
-            class="w-3 h-3 filter brightness-0 invert group-hover:brightness-0 group-hover:invert-0 group-hover:sepia group-hover:saturate-200 group-hover:hue-rotate-15"
-          />
+          <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="10" height="2" fill="none" viewBox="0 0 10 2"><path class="hover:fill-red" fill="#fff" d="M0 .375h10v1.25H0V.375Z"/></svg>
         </button>
         <span class="min-w-4 sm:min-w-6 text-center text-sm sm:text-base" aria-live="polite">{{ inCartQuantity() }}</span>
         <button
           type="button"
-          class="focus-ring cursor-pointer border-2 border-white rounded-full p-1 hover:bg-white group"
+          class="focus-ring cursor-pointer border-2 border-white rounded-full p-1 hover:bg-white"
           aria-label="Increase {{ product().name }} quantity"
           (click)="increment.emit(product().name)"
         >
-          <img
-            src="../../../assets/images/icon-increment-quantity.svg"
-            class="w-3 h-3 filter brightness-0 invert group-hover:brightness-0 group-hover:invert-0 group-hover:sepia group-hover:saturate-200 group-hover:hue-rotate-15"
-          />
+          <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 10 10"><path class="hover:fill-red" fill="#fff" d="M10 4.375H5.625V0h-1.25v4.375H0v1.25h4.375V10h1.25V5.625H10v-1.25Z"/></svg>
         </button>
       </div>
     } @else {
       <button
         type="button"
-        class="flex items-center justify-center gap-2 border-2 border-rose-400 rounded-full w-5/5 h-14 px-3 py-4 hover:text-red hover:border-red cursor-pointer"
+        class="flex items-center justify-center gap-1 border-2 border-rose-400 rounded-full w-5/5 h-14 px-3 py-4 hover:text-red hover:border-red cursor-pointer"
         (click)="add.emit(product())"
         [attr.aria-label]="'Add ' + product().name + ' to cart'"
       >
