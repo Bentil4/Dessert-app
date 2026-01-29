@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, input, output, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { IProduct } from '../../types/product';
-import { CartService } from '../../services/cart.service';
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
@@ -14,8 +13,6 @@ import { CurrencyPipe } from '@angular/common';
   },
 })
 export class ProductCard {
-  private cart = inject(CartService);
-
   product = input.required<IProduct>();
   readonly inCartQuantity = input<number>(0);
   readonly increment = output<string>();

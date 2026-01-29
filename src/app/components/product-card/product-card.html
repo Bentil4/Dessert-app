@@ -1,4 +1,4 @@
-<article class="py-4 cursor-pointer  ">
+<article class="py-2 sm:py-4 cursor-pointer">
   @if (inCartQuantity() > 0) {
     <img
       ngOptimizedImage
@@ -6,7 +6,7 @@
       [alt]="product().name"
       width="500"
       height="500"
-      class="rounded-lg border-2 border-red"
+      class="w-full h-auto rounded-lg border-2 border-red"
     />
   } @else {
     <img
@@ -15,55 +15,55 @@
       [alt]="product().name"
       width="500"
       height="500"
-      class="rounded-lg"
+      class="w-full h-auto rounded-lg"
     />
   }
 
   <div
-    class="flex items-center justify-center mt-3 relative -top-8 left-14 w-3/5 rounded-full bg-white"
+    class="flex items-center justify-center mt-3 sm:mt-3 relative -top-8 sm:-top-6 md:-top-8 left-14 w-3/5 rounded-full bg-white "
   >
     @if (inCartQuantity() > 0) {
       <div
-        class="flex items-center justify-center gap-10 px-3 w-5/5 bg-red text-white py-4 rounded-full"
+        class="flex items-center justify-around  gap-10 sm:gap-4 md:gap-10 px-2 sm:px-3 w-full h-14 bg-red text-white py-4 rounded-full"
       >
         <button
           type="button"
-          class="focus-ring cursor-pointer"
+          class="focus-ring cursor-pointer border-2 border-white rounded-full p-1 hover:bg-white group"
           aria-label="Decrease {{ product().name }} quantity"
           (click)="decrement.emit(product().name)"
         >
           <img
             src="../../../assets/images/icon-decrement-quantity.svg"
-            class="cursor-pointer border-2 rounded-full p-1 h-2.5 hover:text-red hover:bg-white"
+            class="w-3 h-3 filter brightness-0 invert group-hover:brightness-0 group-hover:invert-0 group-hover:sepia group-hover:saturate-200 group-hover:hue-rotate-15"
           />
         </button>
-        <span class="min-w-6 text-center" aria-live="polite">{{ inCartQuantity() }}</span>
+        <span class="min-w-4 sm:min-w-6 text-center text-sm sm:text-base" aria-live="polite">{{ inCartQuantity() }}</span>
         <button
           type="button"
-          class="focus-ring text-(--color-primary) cursor-pointer"
+          class="focus-ring cursor-pointer border-2 border-white rounded-full p-1 hover:bg-white group"
           aria-label="Increase {{ product().name }} quantity"
           (click)="increment.emit(product().name)"
         >
           <img
             src="../../../assets/images/icon-increment-quantity.svg"
-            class="cursor-pointer border-2 rounded-full p-1 hover:bg-white"
+            class="w-3 h-3 filter brightness-0 invert group-hover:brightness-0 group-hover:invert-0 group-hover:sepia group-hover:saturate-200 group-hover:hue-rotate-15"
           />
         </button>
       </div>
     } @else {
       <button
         type="button"
-        class="flex items-center justify-center gap-2 border-2 border-rose-400 rounded-full w-5/5 px-3 py-4 hover:text-red hover:border-red cursor-pointer"
+        class="flex items-center justify-center gap-2 border-2 border-rose-400 rounded-full w-5/5 h-14 px-3 py-4 hover:text-red hover:border-red cursor-pointer"
         (click)="add.emit(product())"
         [attr.aria-label]="'Add ' + product().name + ' to cart'"
       >
-        <img src="../../../assets/images/icon-add-to-cart.svg" alt="icon-add-to-cart" />
-        <span class="text-sm font-medium">Add to Cart</span>
+        <img src="../../../assets/images/icon-add-to-cart.svg" alt="icon-add-to-cart" class="w-4 h-4 sm:w-5 sm:h-5" />
+        <span class="text-xs sm:text-sm font-medium">Add to Cart</span>
       </button>
     }
   </div>
 
-  <p class="mt-2 text-sm text-rose-400">{{ product().category }}</p>
-  <h3 class="font-semibold pt-1">{{ product().name }}</h3>
-  <p class="text-red font-bold pt-1">{{ product().price | currency: 'GH₵' }}</p>
+  <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-rose-400">{{ product().category }}</p>
+  <h3 class="font-semibold pt-1 text-sm sm:text-base">{{ product().name }}</h3>
+  <p class="text-red font-bold pt-1 text-sm sm:text-base">{{ product().price | currency: 'GH₵' }}</p>
 </article>
