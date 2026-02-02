@@ -6,7 +6,7 @@
       [alt]="product().name"
       width="500"
       height="500"
-      class="w-full h-auto rounded-lg border-2 border-red"
+      class="w-full h-auto rounded-lg border-2 border-red lg:w-[120%] lg:h-auto xl:w-full"
     />
   } @else {
     <img
@@ -15,12 +15,12 @@
       [alt]="product().name"
       width="500"
       height="500"
-      class="w-full h-auto rounded-lg"
+      class="w-full h-auto rounded-lg lg:w-[120%] lg:h-auto xl:w-full"
     />
   }
 
   <div
-    class="flex items-center justify-center mt-3 sm:mt-3 relative -top-8 sm:-top-6 md:-top-8 left-14 w-3/5 rounded-full bg-white "
+    class="flex items-center justify-center mt-3 sm:mt-3 relative -top-8 sm:-top-6 md:-top-8 left-14 lg:left-1/2 lg:-translate-x-1/2 w-3/5 rounded-full bg-white "
   >
     @if (inCartQuantity() > 0) {
       <div
@@ -57,7 +57,7 @@
     }
   </div>
 
-  <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-rose-400">{{ product().category }}</p>
-  <h3 class="font-semibold pt-1 text-sm sm:text-base">{{ product().name }}</h3>
-  <p class="text-red font-bold pt-1 text-sm sm:text-base">{{ product().price | currency: 'GH₵' }}</p>
+  <p class="mt-1 sm:mt-2 text-xs sm:text-sm lg:text-base xl:text-sm text-rose-400">{{ product().category }}</p>
+  <h3 class="font-semibold pt-1 text-sm sm:text-base lg:text-lg xl:text-base">{{ product().name }}</h3>
+  <p class="text-red font-bold pt-1 text-sm sm:text-base lg:text-lg xl:text-base">{{ product().price | currency: 'GH₵' }}</p>
 </article>
