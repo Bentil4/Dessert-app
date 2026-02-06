@@ -33,6 +33,10 @@ describe('ProductList', () => {
       id: '1'
     };
     component.addToCart(product);
-    expect(cartService.addItem).toHaveBeenCalledWith(product);
+    expect(cartService.addItemToCart).toHaveBeenCalledWith(product);
   });
 });
+function spyOn(cartService: CartService, arg1: string) {
+  throw new Error('Function not implemented.');
+}
+

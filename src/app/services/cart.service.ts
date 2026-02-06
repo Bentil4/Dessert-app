@@ -22,12 +22,8 @@ export class CartService {
     this._items().reduce((sum, item) => sum + item.quantity * item.product.price, 0),
   );
 
-  /**
-   * Add a product to the cart. If the product already exists in the cart,
-   * increment its quantity by 1. If not, add it with a quantity of 1.
-   * @param product The product to add to the cart
-   */
-  addItem(product: IProduct): void {
+  
+  addItemToCart(product: IProduct): void {
     this._items.update((items) => {
       const existing = items.find((item) => item.product.name === product.name);
       if (existing) {

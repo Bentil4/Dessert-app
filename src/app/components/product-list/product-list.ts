@@ -18,7 +18,7 @@ export class ProductList {
   products$ = this.productService.getProducts();
 
   public addToCart(product: IProduct): void {
-    this.cartService.addItem(product);
+    this.cartService.addItemToCart(product);
   }
 
   public incrementQuantity(product: IProduct): void {
