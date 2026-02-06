@@ -18,7 +18,7 @@ export class ProductsService {
     return this.http
       .get<
         { id: string; name: string; category: string; price: number; image: IProductImages }[]
-      >('./assets/data/data.json')
+      >('assets/data/data.json')
       .pipe(
         map((products) =>
           products.map((product) => ({
