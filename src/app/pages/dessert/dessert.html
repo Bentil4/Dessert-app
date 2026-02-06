@@ -19,6 +19,7 @@
     >
       <app-order-confirm-model
         class="max-md:w-full"
+        [items]="confirmedOrder()"
         (click)="$event.stopPropagation()"
         (close)="onCloseModal()"
       />

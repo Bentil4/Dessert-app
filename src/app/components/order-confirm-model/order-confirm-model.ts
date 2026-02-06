@@ -1,7 +1,6 @@
-import { Component, computed, inject, output } from '@angular/core';
-import { CartService } from '../../services/cart.service';
-import { Router } from '@angular/router';
-import { CurrencyPipe } from '@angular/common';
+import { Component, computed, inject, output, input } from '@angular/core';
+import { CartService } from '../../services/cart.service';import { CurrencyPipe } from '@angular/common';
+import { ICartItem } from '../../types/cart';
 
 @Component({
   selector: 'app-order-confirm-model',
@@ -12,12 +11,13 @@ import { CurrencyPipe } from '@angular/common';
 export class OrderConfirmModel {
   cartService = inject(CartService);
 
-  readonly items = computed(() => this.cartService.items());
-  readonly total = computed(() => this.cartService.totalPrice());
+  readonly items = input.required<ICartItem[]>();
+  readonly total = computed(() => 
+    this.items().reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
+  );
   readonly close = output<void>();
 
   startNewOrder(): void {
-    this.cartService.clearCart();
     this.close.emit();
   }
 }
