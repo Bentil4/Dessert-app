@@ -8,7 +8,7 @@ import { IProduct } from '../../types/product';
   selector: 'app-product-list',
   imports: [AsyncPipe, ProductCard],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.css',
+  styles: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductList {

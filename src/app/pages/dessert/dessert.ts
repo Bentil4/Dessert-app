@@ -1,6 +1,6 @@
 import { Component, signal, inject, computed } from '@angular/core';
 import { ProductList } from '../../components/product-list/product-list';
-import { CartPanel } from "../../components/cart-panel/cart-panel";
+import { CartPanel } from '../../components/cart-panel/cart-panel';
 import { OrderConfirmModel } from '../../components/order-confirm-model/order-confirm-model';
 import { CartService } from '../../services/cart.service';
 import { ICartItem } from '../../types/cart';
@@ -9,7 +9,7 @@ import { ICartItem } from '../../types/cart';
   selector: 'app-dessert',
   imports: [ProductList, CartPanel, OrderConfirmModel],
   templateUrl: './dessert.html',
-  styleUrl: './dessert.css',
+  styles: '',
 })
 export class Dessert {
   public isOrderConfirmed = signal(false);
