@@ -13,9 +13,9 @@ import { CurrencyPipe } from '@angular/common';
   },
 })
 export class ProductCard {
-  product = input.required<IProduct>();
-  readonly inCartQuantity = input<number>(0);
-  readonly increment = output<string>();
-  readonly decrement = output<string>();
-  readonly add = output<IProduct>();
+  public product = input.required<IProduct>();
+  public readonly inCartQuantity = input<number>(0);
+  public readonly increment = output<string>();
+  public readonly decrement = output<string>();
+  public readonly add = output<IProduct>();
 }

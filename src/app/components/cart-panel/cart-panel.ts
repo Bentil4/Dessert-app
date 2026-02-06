@@ -9,11 +9,11 @@ import { CurrencyPipe } from '@angular/common';
   styleUrl: './cart-panel.css',
 })
 export class CartPanel {
-  cart = inject(CartService);
+  public cart = inject(CartService);
 
-  readonly confirm = output<void>();
+  public readonly confirm = output<void>();
 
-  startNewOrder(): void {
+ public startNewOrder(): void {
     this.confirm.emit();
   }
 }

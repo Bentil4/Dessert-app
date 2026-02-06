@@ -12,17 +12,17 @@ import { ICartItem } from '../../types/cart';
   styleUrl: './dessert.css',
 })
 export class Dessert {
-  isOrderConfirmed = signal(false);
-  cartService = inject(CartService);
-  confirmedOrder = signal<ICartItem[]>([]);
+  public isOrderConfirmed = signal(false);
+  public cartService = inject(CartService);
+  public confirmedOrder = signal<ICartItem[]>([]);
 
-  onConfirmOrder(): void {
+  public onConfirmOrder(): void {
     this.confirmedOrder.set([...this.cartService.items()]);
     this.isOrderConfirmed.set(true);
     this.cartService.clearCart();
   }
 
-  onCloseModal(): void {
+  public onCloseModal(): void {
     this.isOrderConfirmed.set(false);
   }
 }
