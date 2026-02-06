@@ -3,18 +3,17 @@ import { IProduct, IProductImages } from '../types/product';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
   private http = inject(HttpClient);
+  private loggingService = inject(LoggingService);
 
-  /**
-   * Fetches the list of products from the JSON file.
-   * @returns An observable array of products, each with a string id, a string name, a string category, a number price, and an IProductImages object.
-   */
-  getProducts(): Observable<IProduct[]> {
+  public getProducts(): Observable<IProduct[]> {
+    this.loggingService.logAction('Fetching products');
     return this.http
       .get<
         { id: string; name: string; category: string; price: number; image: IProductImages }[]

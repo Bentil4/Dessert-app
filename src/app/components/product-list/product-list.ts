@@ -8,8 +8,8 @@ import { IProduct } from '../../types/product';
   selector: 'app-product-list',
   imports: [AsyncPipe, ProductCard],
   templateUrl: './product-list.html',
-  styleUrl: './product-list.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styles: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductList {
   private productService = inject(ProductsService);
@@ -17,19 +17,19 @@ export class ProductList {
 
   products$ = this.productService.getProducts();
 
-  addToCart(product: IProduct): void {
-    this.cartService.addItem(product);
+  public addToCart(product: IProduct): void {
+    this.cartService.addItemToCart(product);
   }
 
-  incrementQuantity(product: IProduct): void {
-    this.cartService.increaseQuantity(product.name);
+  public incrementQuantity(product: IProduct): void {
+    this.cartService.increaseCartQuantity(product.name);
   }
 
-  decrementQuantity(product: IProduct): void {
-    this.cartService.decreaseQuantity(product.name);
+  public decrementQuantity(product: IProduct): void {
+    this.cartService.decreaseCartQuantity(product.name);
   }
 
-  getQuantity(product: IProduct): number {
+  public getQuantity(product: IProduct): number {
     const item = this.cartService.items().find((item) => item.product.name === product.name);
     return item ? item.quantity : 0;
   }
