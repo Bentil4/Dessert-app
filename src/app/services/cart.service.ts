@@ -16,9 +16,9 @@ export class CartService {
     });
   }
 
-  items = this._items.asReadonly();
+  public items = this._items.asReadonly();
 
-  totalPrice = computed(() =>
+  public totalPrice = computed(() =>
     this._items().reduce((sum, item) => sum + item.quantity * item.product.price, 0),
   );
 
