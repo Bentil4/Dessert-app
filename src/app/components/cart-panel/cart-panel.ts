@@ -6,14 +6,14 @@ import { CurrencyPipe } from '@angular/common';
   selector: 'app-cart-panel',
   imports: [CurrencyPipe],
   templateUrl: './cart-panel.html',
-  styleUrl: './cart-panel.css',
+  styles: '',
 })
 export class CartPanel {
   public cart = inject(CartService);
 
   public readonly confirm = output<void>();
 
- public startNewOrder(): void {
+  public startNewOrder(): void {
     this.confirm.emit();
   }
 }

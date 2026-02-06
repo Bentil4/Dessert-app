@@ -1,5 +1,4 @@
-import { Component, computed, inject, output, input } from '@angular/core';
-import { CartService } from '../../services/cart.service';
+import { Component, computed, output, input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ICartItem } from '../../types/cart';
 
@@ -7,10 +6,9 @@ import { ICartItem } from '../../types/cart';
   selector: 'app-order-confirm-model',
   imports: [CurrencyPipe],
   templateUrl: './order-confirm-model.html',
-  styleUrl: './order-confirm-model.css',
+  styles: '',
 })
 export class OrderConfirmModel {
-  public cartService = inject(CartService);
   public readonly close = output<void>();
 
   public readonly items = input.required<ICartItem[]>();
