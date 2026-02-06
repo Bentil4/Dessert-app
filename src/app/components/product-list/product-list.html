@@ -1,10 +1,15 @@
 @if (products$ | async; as products) {
-<section class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
-  @for (product of products; track product.name) {
-  <app-product-card [product]="product" [inCartQuantity]="getQuantity(product)" (add)="addToCart($event)"
-    (increment)="incrementQuantity(product)" (decrement)="decrementQuantity(product)" />
-  }
-</section>
+  <section class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
+    @for (product of products; track product.name) {
+      <app-product-card
+        [product]="product"
+        [inCartQuantity]="getQuantity(product)"
+        (add)="addToCart($event)"
+        (increment)="incrementQuantity(product)"
+        (decrement)="decrementQuantity(product)"
+      />
+    }
+  </section>
 } @else {
-<p>No desserts available.</p>
+  <p>No desserts available.</p>
 }
