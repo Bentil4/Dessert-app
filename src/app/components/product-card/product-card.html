@@ -2,7 +2,7 @@
   @if (inCartQuantity() > 0) {
     <img
       ngOptimizedImage
-      [src]="product().imageURL.desktop"
+      [src]="product().image.desktop"
       [alt]="product().name"
       width="500"
       height="500"
@@ -11,7 +11,7 @@
   } @else {
     <img
       ngOptimizedImage
-      [src]="product().imageURL.desktop"
+      [src]="product().image.desktop"
       [alt]="product().name"
       width="500"
       height="500"

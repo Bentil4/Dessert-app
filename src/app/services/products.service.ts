@@ -16,7 +16,7 @@ export class ProductsService {
     this.loggingService.logAction('Fetching products');
     return this.http
       .get<
-        { id: string; name: string; category: string; price: number; image: IProductImages }[]
+        IProduct[]
       >('assets/data/data.json')
       .pipe(
         map((products) =>
@@ -25,7 +25,7 @@ export class ProductsService {
             name: product.name,
             category: product.category,
             price: product.price,
-            imageURL: product.image,
+            image: product.image,
           })),
         ),
       );

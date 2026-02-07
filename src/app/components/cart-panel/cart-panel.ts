@@ -6,7 +6,6 @@ import { CurrencyPipe } from '@angular/common';
   selector: 'app-cart-panel',
   imports: [CurrencyPipe],
   templateUrl: './cart-panel.html',
-  styles: '',
 })
 export class CartPanel {
   public cart = inject(CartService);

@@ -8,7 +8,7 @@ export interface IProductImages {
 export interface IProduct {
   id: string;
   name: string;
-  imageURL: IProductImages;
+  image: IProductImages;
   category: string;
   price: number;
 }

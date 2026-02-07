@@ -7,7 +7,7 @@ import { UtilityService } from './utility.service';
 export class LoggingService {
   private utilityService = inject(UtilityService);
 
-  logAction(action: string, details?: string): void {
+  logAction(action: string, details = ''): void {
     const sanitized = this.utilityService.sanitizeInput(action);
     console.log(`[ACTION] ${sanitized}`, details ? this.utilityService.sanitizeInput(details) : '');
   }
@@ -15,10 +15,5 @@ export class LoggingService {
   logError(error: string, details?: unknown): void {
     const sanitized = this.utilityService.sanitizeInput(error);
     console.error(`[ERROR] ${sanitized}`, details);
-  }
-
-  logInfo(message: string): void {
-    const sanitized = this.utilityService.sanitizeInput(message);
-    console.info(`[INFO] ${sanitized}`);
   }
 }
