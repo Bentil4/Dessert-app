@@ -9,9 +9,8 @@ describe('ProductList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductList]
-    })
-      .compileComponents();
+      imports: [ProductList],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ProductList);
     component = fixture.componentInstance;
@@ -29,8 +28,8 @@ describe('ProductList', () => {
       name: 'Test Product',
       price: 10,
       category: 'Test',
-      imageURL: { desktop: '', mobile: '', tablet: '', thumbnail: '' },
-      id: '1'
+      image: { desktop: '', mobile: '', tablet: '', thumbnail: '' },
+      id: '1',
     };
     component.addToCart(product);
     expect(cartService.addItemToCart).toHaveBeenCalledWith(product);
@@ -39,4 +38,3 @@ describe('ProductList', () => {
 function spyOn(cartService: CartService, arg1: string) {
   throw new Error('Function not implemented.');
 }
-
