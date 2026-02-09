@@ -4,7 +4,7 @@ import { ProductCard } from '../product-card/product-card';
 import { AsyncPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { IProduct } from '../../types/product';
-import { map, Observable, Subject, switchMap, startWith, debounceTime, takeUntil } from 'rxjs';
+import { map, Observable, Subject, switchMap, startWith, debounceTime, takeUntil, distinctUntilChanged, combineLatest } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -18,20 +18,18 @@ export class ProductList implements OnDestroy {
   private cartService = inject(CartService);
   private destroy$ = new Subject<void>();
 
+  private searchTerm$ = new Subject<string>();
   private categoryFilter$ = new Subject<string>();
-  private priceFilter$ = new Subject<{ min: number; max: number }>();
 
+  public searchQuery = '';
   public selectedCategory = '';
-  public minPrice = 0;
-  public maxPrice = 10;
 
-  public products$ = this.categoryFilter$.pipe(
-    startWith(''),
-    debounceTime(300),
-    switchMap((category) =>
-      category ? this.productService.filterByCategory(category) : this.productService.getProducts(),
-    ),
-    takeUntil(this.destroy$),
+  public products$ = combineLatest([
+    this.searchTerm$.pipe(startWith(''), debounceTime(300), distinctUntilChanged()),
+    this.categoryFilter$.pipe(startWith(''), distinctUntilChanged())
+  ]).pipe(
+    switchMap(([search, category]) => this.productService.filterProducts(search, category)),
+    takeUntil(this.destroy$)
   );
 
   public items$ = this.cartService.items$;
@@ -57,12 +55,12 @@ export class ProductList implements OnDestroy {
     );
   }
 
-  public onCategoryChange(category: string): void {
-    this.categoryFilter$.next(category);
+  public onSearchChange(search: string): void {
+    this.searchTerm$.next(search);
   }
 
-  public onPriceFilter(): void {
-    this.priceFilter$.next({ min: this.minPrice, max: this.maxPrice });
+  public onCategoryChange(category: string): void {
+    this.categoryFilter$.next(category);
   }
 
   ngOnDestroy(): void {

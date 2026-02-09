@@ -1,9 +1,20 @@
 <section class="mb-6 flex gap-4 items-center flex-wrap">
   <label class="flex items-center gap-2">
+    <span class="font-semibold">Search:</span>
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="onSearchChange($event)"
+      placeholder="Search desserts..."
+      class="border rounded px-3 py-2 bg-white w-64"
+    />
+  </label>
+  
+  <label class="flex items-center gap-2">
     <span class="font-semibold">Category:</span>
     <select 
       [(ngModel)]="selectedCategory" 
-      (change)="onCategoryChange(selectedCategory)"
+      (ngModelChange)="onCategoryChange($event)"
       class="border rounded px-3 py-2 bg-white"
     >
       <option value="">All</option>

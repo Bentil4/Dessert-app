@@ -41,4 +41,27 @@ export class ProductsService {
       tap((filtered) => this.loggingService.logAction('Filtered by price', `${min}-${max}: ${filtered.length} items`))
     );
   }
+
+  public searchByName(searchTerm: string): Observable<IProduct[]> {
+    return this.products$.pipe(
+      map((products) => products.filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()))),
+      tap((filtered) => this.loggingService.logAction('Searched products', `"${searchTerm}": ${filtered.length} items`))
+    );
+  }
+
+  public filterProducts(searchTerm: string, category: string): Observable<IProduct[]> {
+    return this.products$.pipe(
+      map((products) => {
+        let filtered = products;
+        if (searchTerm) {
+          filtered = filtered.filter((p) => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+        if (category) {
+          filtered = filtered.filter((p) => p.category === category);
+        }
+        return filtered;
+      }),
+      tap((filtered) => this.loggingService.logAction('Filtered products', `${filtered.length} items`))
+    );
+  }
 }
