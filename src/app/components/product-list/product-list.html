@@ -1,3 +1,25 @@
+<section class="mb-6 flex gap-4 items-center flex-wrap">
+  <label class="flex items-center gap-2">
+    <span class="font-semibold">Category:</span>
+    <select 
+      [(ngModel)]="selectedCategory" 
+      (change)="onCategoryChange(selectedCategory)"
+      class="border rounded px-3 py-2 bg-white"
+    >
+      <option value="">All</option>
+      <option value="Waffle">Waffle</option>
+      <option value="Crème Brûlée">Crème Brûlée</option>
+      <option value="Macaron">Macaron</option>
+      <option value="Tiramisu">Tiramisu</option>
+      <option value="Baklava">Baklava</option>
+      <option value="Pie">Pie</option>
+      <option value="Cake">Cake</option>
+      <option value="Brownie">Brownie</option>
+      <option value="Panna Cotta">Panna Cotta</option>
+    </select>
+  </label>
+</section>
+
 @if (products$ | async; as products) {
   <section class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
     @for (product of products; track product.name) {

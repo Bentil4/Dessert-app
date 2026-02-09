@@ -4,7 +4,7 @@ import { ICartItem } from '../types/cart';
 import { StorageService } from './storage.service';
 import { LoggingService } from './logging.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -12,10 +12,13 @@ export class CartService {
   private loggingService = inject(LoggingService);
   private _items$ = new BehaviorSubject<ICartItem[]>(this.storageService.loadCart<ICartItem[]>() || []);
 
-  public items$: Observable<ICartItem[]> = this._items$.asObservable();
+  public items$: Observable<ICartItem[]> = this._items$.asObservable().pipe(
+    tap((items) => this.loggingService.logAction('Cart items updated', items.length.toString()))
+  );
 
   public totalPrice$: Observable<number> = this._items$.pipe(
-    map((items) => items.reduce((sum, item) => sum + item.quantity * item.product.price, 0))
+    map((items) => items.reduce((sum, item) => sum + item.quantity * item.product.price, 0)),
+    tap((total) => this.loggingService.logAction('Total price calculated', total.toString()))
   );
 
   addItemToCart(product: IProduct): void {
