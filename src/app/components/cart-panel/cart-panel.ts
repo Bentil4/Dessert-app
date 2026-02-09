@@ -1,16 +1,22 @@
 import { Component, inject, output } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { CurrencyPipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cart-panel',
-  imports: [CurrencyPipe],
+  imports: [AsyncPipe, CurrencyPipe],
   templateUrl: './cart-panel.html',
 })
 export class CartPanel {
-  public cart = inject(CartService);
+  public cartService = inject(CartService);
+  public items$ = this.cartService.items$;
+  public totalPrice$ = this.cartService.totalPrice$;
 
   public readonly confirm = output<void>();
+
+  public removeItem(name: string): void {
+    this.cartService.removeCartItem(name);
+  }
 
   public startNewOrder(): void {
     this.confirm.emit();

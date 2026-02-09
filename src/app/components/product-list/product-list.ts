@@ -4,6 +4,8 @@ import { ProductCard } from '../product-card/product-card';
 import { AsyncPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
 import { IProduct } from '../../types/product';
+import { map, Observable } from 'rxjs';
+
 @Component({
   selector: 'app-product-list',
   imports: [AsyncPipe, ProductCard],
@@ -15,6 +17,7 @@ export class ProductList {
   private cartService = inject(CartService);
 
   products$ = this.productService.getProducts();
+  items$ = this.cartService.items$;
 
   public addToCart(product: IProduct): void {
     this.cartService.addItemToCart(product);
@@ -28,8 +31,12 @@ export class ProductList {
     this.cartService.decreaseCartQuantity(product.name);
   }
 
-  public getQuantity(product: IProduct): number {
-    const item = this.cartService.items().find((item) => item.product.name === product.name);
-    return item ? item.quantity : 0;
+  public getQuantity$(productName: string): Observable<number> {
+    return this.items$.pipe(
+      map((items) => {
+        const item = items.find((item) => item.product.name === productName);
+        return item ? item.quantity : 0;
+      })
+    );
   }
 }

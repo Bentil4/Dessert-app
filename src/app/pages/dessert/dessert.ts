@@ -4,6 +4,7 @@ import { CartPanel } from '../../components/cart-panel/cart-panel';
 import { OrderConfirmModel } from '../../components/order-confirm-model/order-confirm-model';
 import { CartService } from '../../services/cart.service';
 import { ICartItem } from '../../types/cart';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dessert',
@@ -17,9 +18,11 @@ export class Dessert {
   public confirmedOrder = signal<ICartItem[]>([]);
 
   public onConfirmOrder(): void {
-    this.confirmedOrder.set([...this.cartService.items()]);
-    this.isOrderConfirmed.set(true);
-    this.cartService.clearCart();
+    this.cartService.items$.pipe(take(1)).subscribe((items) => {
+      this.confirmedOrder.set([...items]);
+      this.isOrderConfirmed.set(true);
+      this.cartService.clearCart();
+    });
   }
 
   public onCloseModal(): void {

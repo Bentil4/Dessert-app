@@ -1,57 +1,59 @@
 <aside class="rounded-xl bg-white p-6 w-96 max-lg:w-full">
-  <h2 class="text-lg font-bold text-red">Your Cart ({{ cart.items().length }})</h2>
+  <h2 class="text-lg font-bold text-red">Your Cart ({{ (items$ | async)?.length || 0 }})</h2>
 
-  @if (cart.items().length === 0) {
-    <section class="flex flex-col items-center text-rose-400">
-      <img src="/assets/images/illustration-empty-cart.svg" alt="illustration-empty-cart" />
-      <p class="mt-4 text-sm">Your added items will appear here</p>
-    </section>
-  } @else {
-    <ul class="mt-4 space-y-3">
-      @for (item of cart.items(); track item.product.name) {
-        <li class="flex justify-between gap-4">
-          <span>
-            <span>{{ item.product.name }} </span>
-            <section class="flex gap-3 text-sm text-gray-500">
-              <span class="text-red"> {{ item.quantity }}×</span>
-              <span class="text-rose-400">@{{ item.product.price | currency: 'GH₵' }}</span>
-              <span class="text-rose-400 font-bold">{{
-                item.product.price * item.quantity | currency: 'GH₵'
-              }}</span>
-            </section>
-          </span>
+  @if ((items$ | async); as items) {
+    @if (items.length === 0) {
+      <section class="flex flex-col items-center text-rose-400">
+        <img src="/assets/images/illustration-empty-cart.svg" alt="illustration-empty-cart" />
+        <p class="mt-4 text-sm">Your added items will appear here</p>
+      </section>
+    } @else {
+      <ul class="mt-4 space-y-3">
+        @for (item of items; track item.product.name) {
+          <li class="flex justify-between gap-4">
+            <span>
+              <span>{{ item.product.name }} </span>
+              <section class="flex gap-3 text-sm text-gray-500">
+                <span class="text-red"> {{ item.quantity }}×</span>
+                <span class="text-rose-400">@{{ item.product.price | currency: 'GH₵' }}</span>
+                <span class="text-rose-400 font-bold">{{
+                  item.product.price * item.quantity | currency: 'GH₵'
+                }}</span>
+              </section>
+            </span>
 
-          <button
-            class="cursor-pointer"
-            type="button"
-            (click)="cart.removeCartItem(item.product.name)"
-            aria-label="Remove {{ item.product.name }} from cart"
-          >
-            <img
-              class="border-2 rounded-full p-1 border-rose-400 hover:border-black"
-              src="/assets/images/icon-remove-item.svg"
-              alt="icon-remove-item"
-            />
-          </button>
-        </li>
-        <hr class="border-rose-100" />
-      }
-    </ul>
+            <button
+              class="cursor-pointer"
+              type="button"
+              (click)="removeItem(item.product.name)"
+              aria-label="Remove {{ item.product.name }} from cart"
+            >
+              <img
+                class="border-2 rounded-full p-1 border-rose-400 hover:border-black"
+                src="/assets/images/icon-remove-item.svg"
+                alt="icon-remove-item"
+              />
+            </button>
+          </li>
+          <hr class="border-rose-100" />
+        }
+      </ul>
 
-    <section class="mt-4 flex justify-between font-light">
-      <span>Order Total</span>
-      <span class="font-black text-2">{{ cart.totalPrice() | currency: 'GH₵' }}</span>
-    </section>
+      <section class="mt-4 flex justify-between font-light">
+        <span>Order Total</span>
+        <span class="font-black text-2">{{ totalPrice$ | async | currency: 'GH₵' }}</span>
+      </section>
 
-    <section class="flex align-center justify-center bg-rose-50 rounded-lg p-4 mt-4 mb-8">
-      <img src="/assets/images/icon-carbon-neutral.svg" alt="icon-carbon-neutral" />
-      <p>This is a <span class="font-bold">carbon-neutral</span> delivery</p>
-    </section>
+      <section class="flex align-center justify-center bg-rose-50 rounded-lg p-4 mt-4 mb-8">
+        <img src="/assets/images/icon-carbon-neutral.svg" alt="icon-carbon-neutral" />
+        <p>This is a <span class="font-bold">carbon-neutral</span> delivery</p>
+      </section>
 
-    <section class="bg-red text-white p-4 text-center rounded-full cursor-pointer">
-      <button class="cursor-pointer" type="button" (click)="startNewOrder()">
-        <p>Confirm Order</p>
-      </button>
-    </section>
+      <section class="bg-red text-white p-4 text-center rounded-full cursor-pointer">
+        <button class="cursor-pointer" type="button" (click)="startNewOrder()">
+          <p>Confirm Order</p>
+        </button>
+      </section>
+    }
   }
 </aside>

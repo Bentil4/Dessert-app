@@ -3,7 +3,7 @@
     @for (product of products; track product.name) {
       <app-product-card
         [product]="product"
-        [inCartQuantity]="getQuantity(product)"
+        [inCartQuantity]="(getQuantity$(product.name) | async) || 0"
         (add)="addToCart($event)"
         (increment)="incrementQuantity(product)"
         (decrement)="decrementQuantity(product)"
