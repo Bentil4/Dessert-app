@@ -1,67 +1,96 @@
 import { Injectable, inject } from '@angular/core';
 import { IProduct } from '../types/product';
-import { ICartItem } from '../types/cart';
+import { ICartItem, ICartSummary } from '../types/cart';
 import { StorageService } from './storage.service';
 import { LoggingService } from './logging.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private storageService = inject(StorageService);
   private loggingService = inject(LoggingService);
-  private _items$ = new BehaviorSubject<ICartItem[]>(this.storageService.loadCart<ICartItem[]>() || []);
-
-  public items$: Observable<ICartItem[]> = this._items$.asObservable().pipe(
-    tap((items) => this.loggingService.logAction('Cart items updated', items.length.toString()))
+  private _items$ = new BehaviorSubject<ICartItem[]>(
+    this.storageService.loadCart<ICartItem[]>() || [],
   );
+
+  public items$: Observable<ICartItem[]> = this._items$
+    .asObservable()
+    .pipe(
+      tap((items) => this.loggingService.logAction('Cart items updated', items.length.toString())),
+    );
 
   public totalPrice$: Observable<number> = this._items$.pipe(
     map((items) => items.reduce((sum, item) => sum + item.quantity * item.product.price, 0)),
-    tap((total) => this.loggingService.logAction('Total price calculated', total.toString()))
+    tap((total) => this.loggingService.logAction('Total price calculated', total.toString())),
   );
 
-  addItemToCart(product: IProduct): void {
+  public itemCount$: Observable<number> = this._items$.pipe(
+    map((items) => items.reduce((sum, item) => sum + item.quantity, 0)),
+  );
+
+  public cartSummary$: Observable<ICartSummary> = combineLatest([
+    this.items$,
+    this.totalPrice$,
+    this.itemCount$,
+  ]).pipe(
+    map(([items, totalPrice, itemCount]) => ({ items, totalPrice, itemCount })),
+    tap((summary) =>
+      this.loggingService.logAction(
+        'Cart summary updated',
+        `${summary.itemCount} items, GH₵${summary.totalPrice}`,
+      ),
+    ),
+  );
+
+  public addItemToCart(product: IProduct): void {
     const items = this._items$.value;
     const existing = items.find((item) => item.product.name === product.name);
     const updated = existing
-      ? items.map((item) => item.product.name === product.name ? { ...item, quantity: item.quantity + 1 } : item)
+      ? items.map((item) =>
+          item.product.name === product.name ? { ...item, quantity: item.quantity + 1 } : item,
+        )
       : [...items, { product, quantity: 1 }];
     this._items$.next(updated);
     this.storageService.saveCart(updated);
     this.loggingService.logAction('Product added to cart', product.name);
   }
 
-  increaseCartQuantity(name: string): void {
+  public increaseCartQuantity(name: string): void {
     const items = this._items$.value;
     const item = items.find((item) => item.product.name === name);
     if (!item) return;
-    const updated = items.map((item) => item.product.name === name ? { ...item, quantity: item.quantity + 1 } : item);
+    const updated = items.map((item) =>
+      item.product.name === name ? { ...item, quantity: item.quantity + 1 } : item,
+    );
     this._items$.next(updated);
     this.storageService.saveCart(updated);
     this.loggingService.logAction('Cart quantity increased', name);
   }
 
-  decreaseCartQuantity(name: string): void {
+  public decreaseCartQuantity(name: string): void {
     const items = this._items$.value;
     const item = items.find((item) => item.product.name === name);
     if (!item) return;
-    const updated = item.quantity <= 1
-      ? items.filter((item) => item.product.name !== name)
-      : items.map((item) => item.product.name === name ? { ...item, quantity: item.quantity - 1 } : item);
+    const updated =
+      item.quantity <= 1
+        ? items.filter((item) => item.product.name !== name)
+        : items.map((item) =>
+            item.product.name === name ? { ...item, quantity: item.quantity - 1 } : item,
+          );
     this._items$.next(updated);
     this.storageService.saveCart(updated);
     this.loggingService.logAction('Cart quantity decreased', name);
   }
 
-  removeCartItem(name: string): void {
+  public removeCartItem(name: string): void {
     const updated = this._items$.value.filter((item) => item.product.name !== name);
     this._items$.next(updated);
     this.storageService.saveCart(updated);
     this.loggingService.logAction('Item removed from cart', name);
   }
 
-  clearCart(): void {
+  public clearCart(): void {
     this._items$.next([]);
     this.storageService.clearCart();
     this.loggingService.logAction('Cart cleared');
