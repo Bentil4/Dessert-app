@@ -3,8 +3,18 @@ import { ProductsService } from '../../services/products.service';
 import { ProductCard } from '../product-card/product-card';
 import { AsyncPipe } from '@angular/common';
 import { CartService } from '../../services/cart.service';
-import { IProduct } from '../../types/product';
-import { map, Observable, Subject, switchMap, startWith, debounceTime, takeUntil, distinctUntilChanged, combineLatest } from 'rxjs';
+import { IProduct, IProductWithCart } from '../../types/product';
+import {
+  map,
+  Observable,
+  Subject,
+  switchMap,
+  startWith,
+  debounceTime,
+  takeUntil,
+  distinctUntilChanged,
+  combineLatest,
+} from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -23,16 +33,33 @@ export class ProductList implements OnDestroy {
 
   public searchQuery = '';
   public selectedCategory = '';
+  public errorMessage$ = this.productService.error$;
 
-  public products$ = combineLatest([
+  private filteredProducts$ = combineLatest([
     this.searchTerm$.pipe(startWith(''), debounceTime(300), distinctUntilChanged()),
-    this.categoryFilter$.pipe(startWith(''), distinctUntilChanged())
+    this.categoryFilter$.pipe(startWith(''), distinctUntilChanged()),
   ]).pipe(
     switchMap(([search, category]) => this.productService.filterProducts(search, category)),
-    takeUntil(this.destroy$)
+    takeUntil(this.destroy$),
+  );
+
+  public productsWithCart$: Observable<IProductWithCart[]> = combineLatest([
+    this.filteredProducts$,
+    this.cartService.items$,
+  ]).pipe(
+    map(([products, cartItems]) =>
+      products.map((product) => ({
+        ...product,
+        inCartQuantity: cartItems.find((item) => item.product.name === product.name)?.quantity || 0,
+      })),
+    ),
+    takeUntil(this.destroy$),
   );
 
   public items$ = this.cartService.items$;
+  public hasError$ = this.productService.error$.pipe(
+    map(error => error !== null)
+  );
 
   public addToCart(product: IProduct): void {
     this.cartService.addItemToCart(product);
@@ -44,15 +71,6 @@ export class ProductList implements OnDestroy {
 
   public decrementQuantity(product: IProduct): void {
     this.cartService.decreaseCartQuantity(product.name);
-  }
-
-  public getQuantity$(productName: string): Observable<number> {
-    return this.items$.pipe(
-      map((items) => {
-        const item = items.find((item) => item.product.name === productName);
-        return item ? item.quantity : 0;
-      }),
-    );
   }
 
   public onSearchChange(search: string): void {

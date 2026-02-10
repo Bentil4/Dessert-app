@@ -12,3 +12,7 @@ export interface IProduct {
   category: string;
   price: number;
 }
+
+export interface IProductWithCart extends IProduct {
+  inCartQuantity: number;
+}

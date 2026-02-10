@@ -1,15 +1,15 @@
 <aside class="rounded-xl bg-white p-6 w-96 max-lg:w-full">
-  <h2 class="text-lg font-bold text-red">Your Cart ({{ (items$ | async)?.length || 0 }})</h2>
+  @if (cartSummary$ | async; as cart) {
+    <h2 class="text-lg font-bold text-red">Your Cart ({{ cart.itemCount }})</h2>
 
-  @if ((items$ | async); as items) {
-    @if (items.length === 0) {
+    @if (cart.items.length === 0) {
       <section class="flex flex-col items-center text-rose-400">
         <img src="/assets/images/illustration-empty-cart.svg" alt="illustration-empty-cart" />
         <p class="mt-4 text-sm">Your added items will appear here</p>
       </section>
     } @else {
       <ul class="mt-4 space-y-3">
-        @for (item of items; track item.product.name) {
+        @for (item of cart.items; track item.product.name) {
           <li class="flex justify-between gap-4">
             <span>
               <span>{{ item.product.name }} </span>
@@ -41,7 +41,7 @@
 
       <section class="mt-4 flex justify-between font-light">
         <span>Order Total</span>
-        <span class="font-black text-2">{{ totalPrice$ | async | currency: 'GH₵' }}</span>
+        <span class="font-black text-2">{{ cart.totalPrice | currency: 'GH₵' }}</span>
       </section>
 
       <section class="flex align-center justify-center bg-rose-50 rounded-lg p-4 mt-4 mb-8">

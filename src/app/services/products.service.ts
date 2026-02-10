@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { IProduct, IProductImages } from '../types/product';
 import { HttpClient } from '@angular/common/http';
-import { Observable, forkJoin } from 'rxjs';
-import { map, tap, shareReplay } from 'rxjs/operators';
+import { Observable, forkJoin, of, BehaviorSubject } from 'rxjs';
+import { map, tap, shareReplay, catchError, retry } from 'rxjs/operators';
 import { LoggingService } from './logging.service';
 
-
+export interface IProductWithCart extends IProduct {
+  inCartQuantity: number;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,12 @@ import { LoggingService } from './logging.service';
 export class ProductsService {
   private http = inject(HttpClient);
   private loggingService = inject(LoggingService);
+  private _error$ = new BehaviorSubject<string | null>(null);
+
+  public error$ = this._error$.asObservable();
+
   private products$ = this.http.get<IProduct[]>('assets/data/data.json').pipe(
+    retry(2),
     tap(() => this.loggingService.logAction('Fetching products')),
     map((products) =>
       products.map((product) => ({
@@ -24,9 +31,35 @@ export class ProductsService {
         image: product.image,
       })),
     ),
-    tap((products) => this.loggingService.logAction('Products loaded', products.length.toString())),
+    tap((products) => {
+      this._error$.next(null);
+      this.loggingService.logAction('Products loaded', products.length.toString());
+    }),
+    catchError((error) => {
+      const errorMsg = 'Failed to load products. Showing sample data.';
+      this._error$.next(errorMsg);
+      this.loggingService.logAction('Product load error', error.message);
+      return of(this.getFallbackProducts());
+    }),
     shareReplay(1),
   );
+
+  private getFallbackProducts(): IProduct[] {
+    return [
+      {
+        id: '1',
+        name: 'Sample Dessert',
+        category: 'Cake',
+        price: 5.0,
+        image: {
+          thumbnail: './assets/images/image-cake-thumbnail.jpg',
+          mobile: './assets/images/image-cake-mobile.jpg',
+          tablet: './assets/images/image-cake-tablet.jpg',
+          desktop: './assets/images/image-cake-desktop.jpg',
+        },
+      },
+    ];
+  }
 
   public getProducts(): Observable<IProduct[]> {
     return this.products$;
@@ -93,6 +126,10 @@ export class ProductsService {
       tap((filtered) =>
         this.loggingService.logAction('Filtered products', `${filtered.length} items`),
       ),
+      catchError((error) => {
+        this.loggingService.logAction('Filter error', error.message);
+        return of([]);
+      }),
     );
   }
 }

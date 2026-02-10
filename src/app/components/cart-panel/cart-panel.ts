@@ -9,8 +9,7 @@ import { AsyncPipe, CurrencyPipe } from '@angular/common';
 })
 export class CartPanel {
   public cartService = inject(CartService);
-  public items$ = this.cartService.items$;
-  public totalPrice$ = this.cartService.totalPrice$;
+  public cartSummary$ = this.cartService.cartSummary$;
 
   public readonly confirm = output<void>();
 
