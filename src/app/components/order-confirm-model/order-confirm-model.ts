@@ -6,7 +6,6 @@ import { ICartItem } from '../../types/cart';
   selector: 'app-order-confirm-model',
   imports: [CurrencyPipe],
   templateUrl: './order-confirm-model.html',
-  styles: '',
 })
 export class OrderConfirmModel {
   public readonly close = output<void>();

@@ -6,7 +6,6 @@ import { CurrencyPipe } from '@angular/common';
   selector: 'app-product-card',
   imports: [CurrencyPipe],
   templateUrl: './product-card.html',
-  styleUrl: './product-card.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'group block',

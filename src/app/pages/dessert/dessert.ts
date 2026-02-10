@@ -10,7 +10,6 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'app-dessert',
   imports: [ProductList, CartPanel, OrderConfirmModel],
   templateUrl: './dessert.html',
-  styles: '',
 })
 export class Dessert implements OnDestroy {
   private destroy$ = new Subject<void>();
